@@ -20,6 +20,26 @@ module Sparsify
 
   end
 
+  def self.unsparse(data)
+
+    result = {}
+
+    data.each do |key, value|
+      names = key.split(DELIMETER)
+      last_key = names.pop
+
+      current = result
+      names.each do |name|
+        current[name] ||= {}
+        current = current[name]
+      end
+      current[last_key] = value
+    end
+
+    result
+
+  end
+
   private
 
   def self.key_name(prefix, key)
