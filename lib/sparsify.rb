@@ -8,7 +8,7 @@ module Sparsify
 
     data.each do |key, value|
 
-      if value.is_a?(Hash)
+      if value.is_a?(Hash) && !value.empty?
         result.merge! sparse(value, key_name(prefix, key))
       else
         result.merge!({ key_name(prefix, key) => value })
