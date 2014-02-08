@@ -37,7 +37,10 @@ module Sparsify
     result = {}
 
     data.each do |key, value|
-      names = key.split(delimeter)
+      names = key.
+        split(Regexp.new("(?<!\\\\)\\#{delimeter}")).
+        map { |k| k.gsub(/\\(.)/, '\1')}
+
       last_key = names.pop
 
       current = result
@@ -53,6 +56,10 @@ module Sparsify
   end
 
   def self.key_name_for(prefix, key, delimeter)
+    key = key.
+      gsub("\\", "\\\\\\\\").
+      gsub("#{delimeter}", "\\#{delimeter}")
+
     [prefix, key].compact.join(delimeter)
   end
 
